@@ -1,1 +1,6 @@
 bin/
+*.exe
+.vscode
+.env.*
+.env
+*.env

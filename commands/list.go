@@ -8,12 +8,10 @@ import (
 )
 
 func List(cCtx *cli.Context) error {
-	for idx, name := range utils.GetSSHConfigs(false) {
-		if cCtx.Bool("count") {
-			fmt.Printf("%v. %v\n", idx+1, name)
-		} else {
-			fmt.Printf("%v\n", name)
-		}
+	var output string
+	for _, name := range utils.GetSSHConfigs(false) {
+		output += fmt.Sprintf("%v\n", name)
 	}
+	fmt.Print(output)
 	return nil
 }

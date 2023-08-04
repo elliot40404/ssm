@@ -19,19 +19,17 @@ func main() {
 				Aliases: []string{"ls"},
 				Usage:   "list available ssh configs",
 				Action:  commands.List,
-				Flags: []cli.Flag{
-					&cli.BoolFlag{
-						Name:    "count",
-						Value:   false,
-						Usage:   "print serial numbers",
-						Aliases: []string{"c"},
-					},
-				},
 			},
 			{
 				Name:   "add",
 				Usage:  "add new ssh config",
 				Action: commands.Add,
+			},
+			{
+				Name:      "print",
+				Usage:     "print ssh config",
+				Action:    commands.Print,
+				ArgsUsage: "<config name>",
 			},
 		},
 	}

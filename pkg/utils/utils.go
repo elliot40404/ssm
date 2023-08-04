@@ -9,27 +9,22 @@ import (
 	"strings"
 )
 
+var categoryRegex = regexp.MustCompile(`(?m)^#.+$`)
+
 func GetSSHDir(configs bool) string {
-	var result string
 	home, err := os.UserHomeDir()
 	if err != nil {
 		log.Fatal("Unable to fetch home dir")
 	}
+	result := home + "/.ssh"
 	if configs {
-		result = home + "/.ssh/config.d"
-	} else {
-		result = home + "/.ssh"
+		result += "/config.d"
 	}
-
 	return result
 }
 
 func GetSSHFile() string {
-	home, err := os.UserHomeDir()
-	if err != nil {
-		log.Fatal("Unable to fetch home dir")
-	}
-	return home + "/.ssh/config"
+	return GetSSHDir(false) + "/config"
 }
 
 func ReadSSHConfig(path string) string {
@@ -72,17 +67,18 @@ func CheckIfExists(basepath string) {
 }
 
 func GetSSHConfigs(withBase bool) []string {
-	var items []string
-	configs, err := os.ReadDir(GetSSHDir(true))
+	sshDir := GetSSHDir(true)
+	configs, err := os.ReadDir(sshDir)
 	if err != nil {
-		log.Fatal("Error Reading configs")
+		log.Fatal("Error reading configs")
 	}
+	items := make([]string, 0, len(configs))
 	for _, config := range configs {
-		if !withBase {
-			items = append(items, config.Name())
-		} else {
-			items = append(items, GetSSHDir(true)+"/"+config.Name())
+		item := config.Name()
+		if withBase {
+			item = sshDir + "/" + item
 		}
+		items = append(items, item)
 	}
 	return items
 }
@@ -101,13 +97,11 @@ func BasicPrompt(prompt string, nullable bool) string {
 }
 
 func GetCategories() []string {
-	var categories []string
-	re := regexp.MustCompile(`(?m)^#.+`)
-	categories = append(categories, re.FindAllString(ReadSSHConfig(GetSSHDir(false)), -1)...)
-	return categories
+	return categoryRegex.FindAllString(ReadSSHConfig(GetSSHDir(false)), -1)
 }
 
 func GetSSHKeys() []string {
+	// TODO: Also consider other keys
 	var categories []string
 	files, err := os.ReadDir(GetSSHDir(false))
 	if err != nil {
@@ -162,4 +156,23 @@ func LinkConfig(name, category string) {
 		}
 	}
 	file.WriteAt(content, 0)
+}
+
+func GetSSHConfig(name string) string {
+	// read file
+	file, err := os.Open(GetSSHDir(true) + "/" + name)
+	if err != nil {
+		log.Fatal("Error Reading Config")
+	}
+	defer file.Close()
+	buffer := make([]byte, 1024)
+	var data string
+	for {
+		n, err := file.Read(buffer)
+		if err != nil {
+			break // End of file reached or an error occurred
+		}
+		data = string(buffer[:n])
+	}
+	return data
 }
