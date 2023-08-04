@@ -1,20 +1,15 @@
 package commands
 
 import (
-	"fmt"
-
 	"github.com/elliot40404/ssm/pkg/utils"
 	"github.com/urfave/cli/v2"
 )
 
-func Print(cCtx *cli.Context) error {
+func Edit(cCtx *cli.Context) error {
 	configName := cCtx.Args().First()
 	if configName == "" {
 		configName = selectMenu("Select Config", utils.GetSSHConfigs(false), false)
 	}
-	// get config
-	config := utils.GetSSHConfig(configName)
-	// print config
-	fmt.Println(config)
+	utils.OpenWithDefaultTextEditor(utils.GetSSHDir(true) + "/" + configName)
 	return nil
 }

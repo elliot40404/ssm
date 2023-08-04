@@ -13,6 +13,11 @@ func main() {
 		Name:    "ssm",
 		Usage:   "ssh config manager",
 		Version: "0.1.0",
+		Authors: []*cli.Author{
+			{
+				Name:  "Elliot",
+			},
+		},
 		Commands: []*cli.Command{
 			{
 				Name:    "list",
@@ -29,6 +34,13 @@ func main() {
 				Name:      "print",
 				Usage:     "print ssh config",
 				Action:    commands.Print,
+				ArgsUsage: "<config name>",
+			},
+			{
+				Name:      "edit",
+				Aliases:   []string{"e"},
+				Usage:     "edit ssh config",
+				Action:    commands.Edit,
 				ArgsUsage: "<config name>",
 			},
 		},
