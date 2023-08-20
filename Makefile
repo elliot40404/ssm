@@ -17,7 +17,17 @@ all: windows
 windows:
 	$(GOBUILD) $(BUILD_FLAGS) -o $(BINARY_DIR)/ssm.exe main.go
 
+linux:
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) $(BUILD_FLAGS) -o $(BINARY_DIR)/ssm main.go
+
+mac:
+	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 $(GOBUILD) $(BUILD_FLAGS) -o $(BINARY_DIR)/ssm main.go
+
+install:
+	$(GOCMD) install $(BUILD_FLAGS)
+
 clean:
+	$(GOCLEAN)
 	$(CLEAN_CMD)
 
 .PHONY: clean

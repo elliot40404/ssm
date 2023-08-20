@@ -13,6 +13,8 @@ import (
 
 var categoryRegex = regexp.MustCompile(`(?m)^#.+$`)
 
+var IGNORE_KEYS = regexp.MustCompile(`(.old|.pub|.ppk|known_hosts|.dccache|.bak|config)`)
+
 func GetSSHDir(configs bool) string {
 	home, err := os.UserHomeDir()
 	if err != nil {
@@ -103,18 +105,20 @@ func GetCategories() []string {
 }
 
 func GetSSHKeys() []string {
-	// TODO: Also consider other keys
-	var categories []string
+	var keys []string
 	files, err := os.ReadDir(GetSSHDir(false))
 	if err != nil {
-		return categories
+		return keys
 	}
 	for _, file := range files {
-		if strings.HasSuffix(file.Name(), ".pem") {
-			categories = append(categories, file.Name())
+		if file.IsDir() {
+			continue
+		}
+		if !IGNORE_KEYS.MatchString(file.Name()) {
+			keys = append(keys, file.Name())
 		}
 	}
-	return categories
+	return keys
 }
 
 func CreateConfig(name, config string) {

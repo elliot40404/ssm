@@ -15,20 +15,34 @@ func main() {
 		Version: "0.1.0",
 		Authors: []*cli.Author{
 			{
-				Name:  "Elliot",
+				Name: "Elliot",
 			},
 		},
 		Commands: []*cli.Command{
 			{
 				Name:    "list",
 				Aliases: []string{"ls"},
-				Usage:   "list available ssh configs",
-				Action:  commands.List,
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:    "filter",
+						Aliases: []string{"f"},
+						Usage:   "filter ssh configs",
+					},
+				},
+				Usage:  "list available ssh configs",
+				Action: commands.List,
 			},
 			{
 				Name:   "add",
 				Usage:  "add new ssh config",
 				Action: commands.Add,
+				Flags: []cli.Flag{
+					&cli.BoolFlag{
+						Name:    "dry-run",
+						Aliases: []string{"d"},
+						Usage:   "dry run",
+					},
+				},
 			},
 			{
 				Name:      "print",

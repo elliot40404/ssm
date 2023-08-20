@@ -30,7 +30,9 @@ func Add(cCtx *cli.Context) error {
 	if config.Port == "" {
 		config.Port = "22"
 	}
-	usekey := askYesNo("Use SSH Key [Y|n]: ", "Y")
+	// ADD SSH KEY
+	usekey := askYesNo("Use SSH Key [Y|n]: ", "y")
+	fmt.Println(usekey)
 	if usekey {
 		result := selectMenu("Select SSH Key", utils.GetSSHKeys(), true)
 		if result == "Add New" {
@@ -39,13 +41,16 @@ func Add(cCtx *cli.Context) error {
 			config.SshKey = "~/.ssh/" + result
 		}
 	}
+	// ADD CATEGORY
 	result := selectMenu("Select Category", utils.GetCategories(), true)
 	if result == "Add New" {
 		config.Category = utils.BasicPrompt("Enter New Category (without #)", false)
 	} else {
 		config.Category = result
 	}
-	config.Save(usekey)
+	if !cCtx.Bool("dry-run") {
+		config.Save(usekey)
+	}
 	return nil
 }
 
@@ -73,16 +78,10 @@ func selectMenu(promptText string, items []string, addNew bool) string {
 func askYesNo(promptText string, defaultValue string) bool {
 	fmt.Print(promptText)
 	var input string
-	_, err := fmt.Scanln(&input)
-	if err != nil {
-		fmt.Println("Error reading input:", err)
-		return false
-	}
-	// Use the default value if input is empty
-	if strings.TrimSpace(input) == "" {
+	fmt.Scanln(&input)
+	input = strings.ToLower(input)
+	if input == "" {
 		input = defaultValue
 	}
-	// Convert input to uppercase for comparison
-	input = strings.ToUpper(input)
-	return input == "Y"
+	return input == "y" || input == "yes"
 }
