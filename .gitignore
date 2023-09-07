@@ -4,3 +4,4 @@ bin/
 .env.*
 .env
 *.env
+dist/
