@@ -4,27 +4,16 @@ GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
 BINARY_DIR=bin
 BUILD_FLAGS=-v
-
-ifeq ($(OS),Windows_NT)
-    CLEAN_CMD = del /Q $(BINARY_DIR)\*.* && rmdir /S /Q $(BINARY_DIR)
-else
-    CLEAN_CMD = rm -rf $(BINARY_DIR)
-endif
+CLEAN_CMD = del /Q $(BINARY_DIR)\*.* && rmdir /S /Q $(BINARY_DIR)
 
 # Targets
-all: windows
+all: build
 
-windows:
-	$(GOBUILD) $(BUILD_FLAGS) -o $(BINARY_DIR)/ssm.exe main.go
-
-linux:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) $(BUILD_FLAGS) -o $(BINARY_DIR)/ssm main.go
-
-mac:
-	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 $(GOBUILD) $(BUILD_FLAGS) -o $(BINARY_DIR)/ssm main.go
+build:
+	$(GOBUILD) $(BUILD_FLAGS) -o $(BINARY_DIR)/ssm.exe ./cmd/ssm
 
 install:
-	$(GOCMD) install $(BUILD_FLAGS)
+	$(GOCMD) install $(BUILD_FLAGS) ./cmd/ssm
 
 clean:
 	$(GOCLEAN)

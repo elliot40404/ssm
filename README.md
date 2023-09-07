@@ -1,14 +1,21 @@
-# SSM - THE SECURE SHELL MANAGER
+# SSM - Simple SSH Manager
 
-```                 
- _____ _____ _____ 
+```
+ _____ _____ _____
 |   __|   __|     |
 |__   |__   | | | |
 |_____|_____|_|_|_|
 
-SSM - THE SECURE SHELL MANAGER
+SSM - SIMPLE SSH MANAGER
                       - Elliot
 ```
+
+## About
+
+I am learning Go and wanted to make something useful. I have a lot of servers that I need to SSH into and I wanted a way to manage them, so I decided to make a simple SSH manager.
+
+> NOTE
+> This is still a work in progress so there may be bugs. Please feel free to report them
 
 ## Directory structure
 
@@ -22,6 +29,7 @@ SSM - THE SECURE SHELL MANAGER
 ├── id_rsa // private key **
 └── id_rsa.pub // public key **
 ```
+
 > `*` - Required
 
 > `**` SSH keys are not required if you use password authorization
@@ -47,3 +55,40 @@ Host compute
   User ubuntu
   Port 4444
 ```
+
+## Usage
+
+```
+NAME:
+   ssm - ssh config manager
+
+USAGE:
+   ssm [global options] command [command options] [arguments...]
+
+VERSION:
+   0.1.0
+
+AUTHOR:
+   Elliot <admin@elliot404.com>
+
+COMMANDS:
+   list, ls  list available ssh configs
+   add       add new ssh config
+   print     print ssh config
+   edit, e   edit ssh config
+   help, h   Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --help, -h     show help
+   --version, -v  print the version
+```
+
+## TODO
+
+-   [ ] Remove config
+-   [ ] Add support for password authentication
+-   [ ] ssh-keygen wrapper
+
+## License
+
+MIT License
