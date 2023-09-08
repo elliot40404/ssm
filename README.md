@@ -17,6 +17,14 @@ I am learning Go and wanted to make something useful. I have a lot of servers th
 > NOTE
 > This is still a work in progress so there may be bugs. Please feel free to report them
 
+## Installation
+
+```
+go install github.com/elliot40404/ssm/cmd/ssm@latest
+```
+
+OR download the binary from the [releases](https://github.com/elliot40404/ssm/releases/latest)
+
 ## Directory structure
 
 ```
