@@ -9,7 +9,7 @@ import (
 
 type Config struct {
 	Name     string `validate:"required"`
-	Hostname string `validate:"required,fqdn|ip|hostname"`
+	Hostname string `validate:"required,fqdn|ip"`
 	Port     int    `validate:"required,min=1,max=65535"`
 	User     string `validate:"required"`
 	Category string `validate:"required"`

@@ -25,6 +25,17 @@ go install github.com/elliot40404/ssm/cmd/ssm@latest
 
 OR download the binary from the [releases](https://github.com/elliot40404/ssm/releases/latest)
 
+OR go the docker way
+
+> NOTE:
+> You will need to mount your ssh directory to the container
+> You can do this by adding `-v <path to ssh dir>:/root/.ssh` to the docker command
+> You need to run this in an interactive terminal
+
+```sh
+docker run --rm  -it -v C:/Users/elliot/.ssh:/root/.ssh elliot40404/ssm --help
+```
+
 ## Directory structure
 
 ```
