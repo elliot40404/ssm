@@ -33,7 +33,7 @@ OR go the docker way
 > You need to run this in an interactive terminal
 
 ```sh
-docker run --rm  -it -v C:/Users/elliot/.ssh:/root/.ssh elliot40404/ssm --help
+docker run --rm  -it -v C:/Users/elliot/.ssh:/root/.ssh elliot404/ssm --help
 ```
 
 ## Directory structure
